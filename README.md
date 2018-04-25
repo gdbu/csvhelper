@@ -1,6 +1,6 @@
 # csvhelper
 
-csvhelper is a CSV Marshal/Unmarhsal library to aid with encoding and decoding CSV files
+csvhelper is a CSV Marshal/Unmarshal library to aid with encoding and decoding CSV files
 
 ## Usage
 
