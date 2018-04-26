@@ -1,11 +1,3 @@
-# csvhelper
-
-csvhelper is a CSV Marshal/Unmarshal library to aid with encoding and decoding CSV files
-
-## Usage
-
-<!-- markdownlint-disable -->
-```go
 package main
 
 import (
@@ -105,6 +97,3 @@ func (u *User) UnmarshalCSV(key, value string) (err error) {
 
 	return
 }
-
-```
-<!-- markdownlint-enable -->
