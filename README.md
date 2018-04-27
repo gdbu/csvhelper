@@ -2,6 +2,14 @@
 
 csvhelper is a CSV Marshal/Unmarshal library to aid with encoding and decoding CSV files
 
+## Installation and setup
+
+1. Download using, go get github.com/Hatch1fy/csvhelper
+2. Import wherever csvhelper is needed
+3. Adapt all intended structs to Encodee's and Decodee's (depending on if you need Marshaling and/or Unmarshaling)
+
+*Note: Please see the usage section and/or the example directory for a basic use-case for marshaling and unmarshaling.*
+
 ## Usage
 
 <!-- markdownlint-disable -->
