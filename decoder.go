@@ -38,6 +38,16 @@ type Decoder struct {
 	header Row
 }
 
+// Header will return a copy of the Decoder's header
+func (d *Decoder) Header() (header Row) {
+	header = make(Row, len(d.header))
+	for i, v := range d.header {
+		header[i] = v
+	}
+
+	return
+}
+
 // Decode will decode a single row
 func (d *Decoder) Decode(dec Decodee) (err error) {
 	// Scan next line
