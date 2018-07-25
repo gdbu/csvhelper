@@ -43,6 +43,10 @@ func (d *Decoder) Decode(dec Decodee) (err error) {
 	var r Row
 	// Attempt to create a new row from our row bytes
 	if r, err = newRow(d.s.Bytes()); err != nil {
+		if err == ErrEmptyRow {
+			return d.Decode(dec)
+		}
+
 		return
 	}
 
