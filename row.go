@@ -1,23 +1,21 @@
 package csvhelper
 
 import (
-	"bytes"
-	"io"
 	"strings"
 )
 
-func newRow(b []byte) (r Row, err error) {
-	if len(b) == 0 {
+func newRow(bs []byte) (r Row, err error) {
+	if len(bs) == 0 {
 		// No bytes exist, return EOF
-		err = io.EOF
+		err = ErrEmptyRow
 		return
 	}
 
 	var spl [][]byte
 	// Split bytes on comma
-	if spl = bytes.Split(b, comma); len(spl) == 0 {
+	if spl = splitOnChar(bs, ','); len(spl) == 0 {
 		// No values exist, return EOF
-		err = io.EOF
+		err = ErrInvalidRow
 		return
 	}
 
