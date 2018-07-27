@@ -3,13 +3,6 @@ package csvhelper
 import (
 	"bufio"
 	"io"
-
-	"github.com/missionMeteora/toolkit/errors"
-)
-
-const (
-	// ErrInvalidRow is returned when a Row contains more entries than the associated Header
-	ErrInvalidRow = errors.Error("invalid row length, cannot contain more fields than header")
 )
 
 // NewDecoder will return a new decoder
@@ -60,6 +53,10 @@ func (d *Decoder) Decode(dec Decodee) (err error) {
 	var r Row
 	// Attempt to create a new row from our row bytes
 	if r, err = newRow(d.s.Bytes()); err != nil {
+		if err == ErrEmptyRow {
+			return d.Decode(dec)
+		}
+
 		return
 	}
 
