@@ -23,6 +23,16 @@ type Encoder struct {
 	header Row
 }
 
+// Header will return a copy of the Encoders's header
+func (e *Encoder) Header() (header Row) {
+	header = make(Row, len(e.header))
+	for i, v := range e.header {
+		header[i] = v
+	}
+
+	return
+}
+
 // Encode will encode a row
 func (e *Encoder) Encode(enc Encodee) (err error) {
 	var r Row
