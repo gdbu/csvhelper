@@ -2,22 +2,24 @@ package csvhelper
 
 func splitOnChar(bs []byte, b byte) (spl [][]byte) {
 	var (
-		index      int
-		escapeChar byte
+		index       int
+		escapeState bool
+		quoteState  bool
 	)
 
 	for i, char := range bs {
-		switch char {
-		case '"', '\'':
-			switch escapeChar {
-			case 0:
-				escapeChar = char
-			case char:
-				escapeChar = 0
-			}
+		if escapeState {
+			escapeState = false
+			continue
+		}
 
+		switch char {
+		case '"':
+			quoteState = !quoteState
+		case '\\':
+			escapeState = true
 		case b:
-			if escapeChar != 0 {
+			if quoteState {
 				continue
 			}
 
