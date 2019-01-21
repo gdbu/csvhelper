@@ -8,8 +8,11 @@ import (
 // NewDecoder will return a new decoder
 func NewDecoder(r io.Reader) (dp *Decoder, err error) {
 	var d Decoder
+	d.s = bufio.NewScanner(r)
+	d.s.Split(scanLines)
+
 	// Read first line of CSV
-	if d.s = bufio.NewScanner(r); !d.s.Scan() {
+	if !d.s.Scan() {
 		err = io.EOF
 		return
 	}
