@@ -6,9 +6,12 @@ import (
 )
 
 const (
-	testCSV = `first_name,last_name,age,city,state
-John,Doe,32,Portland,Oregon
-Jane,Doe,30,Portland,Oregon
+	testCSV = `first_name,last_name,age,city,state,notes
+John,Doe,32,Portland,Oregon,"Favorite foods:
+- eggs
+- apples
+- pears"
+Jane,Doe,30,Portland,Oregon,foo bar
 `
 )
 
@@ -18,10 +21,11 @@ type testStruct struct {
 	Age       int
 	City      string
 	State     string
+	Notes     string
 }
 
 // Validate ensures the values of the struct match the provided values
-func (ts *testStruct) Validate(firstName, lastName string, age int, city, state string) (err error) {
+func (ts *testStruct) Validate(firstName, lastName string, age int, city, state, notes string) (err error) {
 	if ts.FirstName != firstName {
 		return fmt.Errorf("invalid name, expected %s and received %s", firstName, ts.FirstName)
 	}
@@ -39,7 +43,11 @@ func (ts *testStruct) Validate(firstName, lastName string, age int, city, state 
 	}
 
 	if ts.State != state {
-		return fmt.Errorf("invalid name, expected %s and received %s", state, ts.State)
+		return fmt.Errorf("invalid name, expected \"%s\" and received \"%s\"", state, ts.State)
+	}
+
+	if ts.Notes != notes {
+		return fmt.Errorf("invalid notes, expected \"%s\" and received \"%s\" / %d / %d", notes, ts.Notes, len(notes), len(ts.Notes))
 	}
 
 	return
@@ -57,6 +65,8 @@ func (ts *testStruct) MarshalCSV(key string) (value string, err error) {
 		value = ts.City
 	case "state":
 		value = ts.State
+	case "notes":
+		value = ts.Notes
 	}
 
 	return
@@ -74,6 +84,8 @@ func (ts *testStruct) UnmarshalCSV(key, value string) (err error) {
 		ts.City = value
 	case "state":
 		ts.State = value
+	case "notes":
+		ts.Notes = value
 	}
 
 	return
