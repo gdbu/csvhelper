@@ -12,6 +12,7 @@ John,Doe,32,Portland,Oregon,"Favorite foods:
 - apples
 - pears"
 Jane,Doe,30,Portland,Oregon,foo bar
+Jo\, the Plumber,Dazini,54,Portland,Oregon,
 `
 )
 

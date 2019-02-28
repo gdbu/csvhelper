@@ -40,8 +40,8 @@ func TestDecoder(t *testing.T) {
 	}
 
 	// Ensure length is proper
-	if len(tss) != 2 {
-		t.Fatalf("invalid number of rows, expected %d and received %d", 2, len(tss))
+	if len(tss) != 3 {
+		t.Fatalf("invalid number of rows, expected %d and received %d", 3, len(tss))
 	}
 
 	// Validate the first row

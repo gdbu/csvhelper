@@ -1,6 +1,9 @@
 package csvhelper
 
-import "io"
+import (
+	"io"
+	"strings"
+)
 
 // NewEncoder will return a new encoder
 func NewEncoder(w io.Writer, header Row) (ep *Encoder, err error) {
@@ -41,6 +44,8 @@ func (e *Encoder) Encode(enc Encodee) (err error) {
 		if val, err = enc.MarshalCSV(key); err != nil {
 			return
 		}
+
+		val = strings.Replace(val, ",", "\\,", -1)
 
 		r = append(r, val)
 	}

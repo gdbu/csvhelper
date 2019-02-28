@@ -18,12 +18,25 @@ func TestEncoder(t *testing.T) {
 		Age:       32,
 		City:      "Portland",
 		State:     "Oregon",
+		Notes: `"Favorite foods:
+- eggs
+- apples
+- pears"`,
 	})
 
 	tss = append(tss, testStruct{
 		FirstName: "Jane",
 		LastName:  "Doe",
 		Age:       30,
+		City:      "Portland",
+		State:     "Oregon",
+		Notes:     "foo bar",
+	})
+
+	tss = append(tss, testStruct{
+		FirstName: "Jo, the Plumber",
+		LastName:  "Dazini",
+		Age:       54,
 		City:      "Portland",
 		State:     "Oregon",
 	})
@@ -38,6 +51,7 @@ func TestEncoder(t *testing.T) {
 		"age",
 		"city",
 		"state",
+		"notes",
 	}
 
 	// Initialize new encoder
