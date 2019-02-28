@@ -56,4 +56,9 @@ func TestDecoder(t *testing.T) {
 	if err = tss[1].Validate("Jane", "Doe", 30, "Portland", "Oregon", "foo bar"); err != nil {
 		t.Fatal(err)
 	}
+
+	// Validate the third row
+	if err = tss[2].Validate("Jo, the Plumber", "Dazini", 54, "Portland", "Oregon", ""); err != nil {
+		t.Fatal(err)
+	}
 }
