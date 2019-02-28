@@ -40,8 +40,8 @@ func TestDecoder(t *testing.T) {
 	}
 
 	// Ensure length is proper
-	if len(tss) != 2 {
-		t.Fatalf("invalid number of rows, expected %d and received %d", 2, len(tss))
+	if len(tss) != 3 {
+		t.Fatalf("invalid number of rows, expected %d and received %d", 3, len(tss))
 	}
 
 	// Validate the first row
@@ -54,6 +54,11 @@ func TestDecoder(t *testing.T) {
 
 	// Validate the second row
 	if err = tss[1].Validate("Jane", "Doe", 30, "Portland", "Oregon", "foo bar"); err != nil {
+		t.Fatal(err)
+	}
+
+	// Validate the third row
+	if err = tss[2].Validate("Jo, the Plumber", "Dazini", 54, "Portland", "Oregon", ""); err != nil {
 		t.Fatal(err)
 	}
 }

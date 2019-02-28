@@ -1,6 +1,7 @@
 package csvhelper
 
 import (
+	"bytes"
 	"strings"
 )
 
@@ -23,6 +24,8 @@ func newRow(bs []byte) (r Row, err error) {
 	r = make(Row, len(spl))
 	// Iterate through split values
 	for i, v := range spl {
+		// Convert escaped commas to no longer be escaped
+		v = bytes.Replace(v, []byte("\\,"), []byte(","), -1)
 		// Set row value at index of string of split value
 		r[i] = string(v)
 	}

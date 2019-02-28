@@ -33,6 +33,14 @@ func TestEncoder(t *testing.T) {
 		Notes:     "foo bar",
 	})
 
+	tss = append(tss, testStruct{
+		FirstName: "Jo, the Plumber",
+		LastName:  "Dazini",
+		Age:       54,
+		City:      "Portland",
+		State:     "Oregon",
+	})
+
 	// Create buffer
 	buf := bytes.NewBuffer(nil)
 
