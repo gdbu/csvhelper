@@ -6,6 +6,9 @@ import (
 )
 
 const (
+	// This value is setup to match how certain situations are expressed in CSV files
+	// Although this may look ugly, the argument could be made that CSV has ugly ways of handling
+	// certain situations.
 	testCSV = `first_name,last_name,age,city,state,notes
 John,Doe,32,Portland,Oregon,"Favorite foods:
 - eggs
