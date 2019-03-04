@@ -44,10 +44,7 @@ func (e *Encoder) Encode(enc Encodee) (err error) {
 			return
 		}
 
-		if needsEscape(val) {
-			val = escapeString(val)
-		}
-
+		val = escapeString(val)
 		r = append(r, val)
 	}
 
