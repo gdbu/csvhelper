@@ -45,10 +45,10 @@ func TestDecoder(t *testing.T) {
 	}
 
 	// Validate the first row
-	if err = tss[0].Validate("John", "Doe", 32, "Portland", "Oregon", `"Favorite foods:
+	if err = tss[0].Validate("John", "Doe", 32, "Portland", "Oregon", `Favorite foods:
 - eggs
 - apples
-- pears"`); err != nil {
+- pears`); err != nil {
 		t.Fatal(err)
 	}
 

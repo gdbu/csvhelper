@@ -70,6 +70,7 @@ func (d *Decoder) Decode(dec Decodee) (err error) {
 
 	// Iterate through row values
 	for i, v := range r {
+		v = unescapeString(v)
 		// Call Decodee's UnmarshalCSV for row value, passing the header entry as the key
 		if err = dec.UnmarshalCSV(d.header[i], v); err != nil {
 			// Error encountered, return early
