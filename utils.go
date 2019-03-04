@@ -138,10 +138,37 @@ func needsEscape(str string) bool {
 	return true
 }
 
+func isEscaped(str string) bool {
+	if str[0] != '"' {
+		return false
+	}
+
+	if str[len(str)-1] != '"' {
+		return false
+	}
+
+	return true
+}
 func escapeString(str string) string {
+	if !needsEscape(str) {
+		return str
+	}
+
 	escaped := make([]byte, 0, len(str)+2)
 	escaped = append(escaped, '"')
 	escaped = append(escaped, str...)
 	escaped = append(escaped, '"')
 	return string(escaped)
+}
+
+func unescapeString(str string) string {
+	if !isEscaped(str) {
+		return str
+	}
+
+	if len(str) < 2 {
+		return ""
+	}
+
+	return str[1 : len(str)-1]
 }
