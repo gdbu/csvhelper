@@ -2,7 +2,6 @@ package csvhelper
 
 import (
 	"io"
-	"strings"
 )
 
 // NewEncoder will return a new encoder
@@ -45,8 +44,7 @@ func (e *Encoder) Encode(enc Encodee) (err error) {
 			return
 		}
 
-		val = strings.Replace(val, ",", "\\,", -1)
-
+		val = escapeString(val)
 		r = append(r, val)
 	}
 
