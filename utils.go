@@ -2,6 +2,7 @@ package csvhelper
 
 import (
 	"bytes"
+	"strings"
 )
 
 func splitOnChar(bs []byte, b byte) (spl [][]byte) {
@@ -123,4 +124,24 @@ func scanLines(data []byte, atEOF bool) (advance int, token []byte, err error) {
 
 	// No match found yet, request more data
 	return
+}
+
+func needsEscape(str string) bool {
+	switch {
+	case strings.Index(str, ",") > -1:
+	case strings.Index(str, "\n") > -1:
+
+	default:
+		return false
+	}
+
+	return true
+}
+
+func escapeString(str string) string {
+	escaped := make([]byte, 0, len(str)+2)
+	escaped = append(escaped, '"')
+	escaped = append(escaped, str...)
+	escaped = append(escaped, '"')
+	return string(escaped)
 }
