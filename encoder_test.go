@@ -18,10 +18,10 @@ func TestEncoder(t *testing.T) {
 		Age:       32,
 		City:      "Portland",
 		State:     "Oregon",
-		Notes: `"Favorite foods:
+		Notes: `Favorite foods:
 - eggs
 - apples
-- pears"`,
+- pears`,
 	})
 
 	tss = append(tss, testStruct{
