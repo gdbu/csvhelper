@@ -149,6 +149,7 @@ func isEscaped(str string) bool {
 
 	return true
 }
+
 func escapeString(str string) string {
 	if !needsEscape(str) {
 		return str
@@ -162,6 +163,10 @@ func escapeString(str string) string {
 }
 
 func unescapeString(str string) string {
+	if len(str) == 0 {
+		return ""
+	}
+
 	if !isEscaped(str) {
 		return str
 	}
