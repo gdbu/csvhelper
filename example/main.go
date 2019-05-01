@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/Hatch1fy/csvhelper"
+	"github.com/hatchify/csvhelper"
 )
 
 func main() {

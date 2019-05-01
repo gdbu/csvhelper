@@ -4,7 +4,7 @@ csvhelper is a CSV Marshal/Unmarshal library to aid with encoding and decoding C
 
 ## Installation and setup
 
-1. Download using, go get github.com/Hatch1fy/csvhelper
+1. Download using, go get github.com/hatchify/csvhelper
 2. Import wherever csvhelper is needed
 3. Adapt all intended structs to Encodee's and Decodee's (depending on if you need Marshaling and/or Unmarshaling)
 
@@ -21,7 +21,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/Hatch1fy/csvhelper"
+	"github.com/hatchify/csvhelper"
 )
 
 func main() {
