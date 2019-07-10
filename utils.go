@@ -36,12 +36,13 @@ func splitOnChar(bs []byte, b byte) (spl [][]byte) {
 
 			// Append the part to the split slice
 			spl = append(spl, bs[index:i])
+
 			// Update the index
 			index = i + 1
 		}
 	}
 
-	if index < len(bs)-1 {
+	if index < len(bs) {
 		spl = append(spl, bs[index:])
 	}
 
