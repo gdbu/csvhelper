@@ -5,7 +5,7 @@ import (
 )
 
 // NewRowSlices will generate row maps from an io.Reader
-func NewRowSlices(r io.Reader) (rows []RowSlice, err error) {
+func NewRowSlices(r io.Reader) (header Row, rows []RowSlice, err error) {
 	var dec *Decoder
 	// Initilize a new decoder
 	if dec, err = NewDecoder(r); err != nil {
@@ -30,6 +30,7 @@ func NewRowSlices(r io.Reader) (rows []RowSlice, err error) {
 		err = nil
 	}
 
+	header = dec.Header()
 	return
 }
 
