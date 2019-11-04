@@ -1,8 +1,6 @@
 package csvhelper
 
-import (
-	"io"
-)
+import "io"
 
 // NewRowSlices will generate row maps from an io.Reader
 func NewRowSlices(r io.Reader) (header Row, rows []RowSlice, err error) {
@@ -25,9 +23,14 @@ func NewRowSlices(r io.Reader) (header Row, rows []RowSlice, err error) {
 		rows = append(rows, row)
 	}
 
-	if err == io.EOF {
+	switch err {
+	case nil:
+	case io.EOF:
 		// Error was "end of file", set to nil
 		err = nil
+
+	default:
+		return
 	}
 
 	header = dec.Header()
