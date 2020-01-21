@@ -81,6 +81,21 @@ func (d *Decoder) Decode(dec Decodee) (err error) {
 	return
 }
 
+// ForEach is helper func for iterating through decoder rows
+func (d *Decoder) ForEach(fn func() Decodee) (err error) {
+	for err == nil {
+		if err = d.Decode(fn()); err != nil {
+			break
+		}
+	}
+
+	if err == io.EOF {
+		err = nil
+	}
+
+	return
+}
+
 // Decodee is an interface used for Decoding
 type Decodee interface {
 	UnmarshalCSV(key, value string) error
