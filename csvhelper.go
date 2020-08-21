@@ -1,6 +1,6 @@
 package csvhelper
 
-import "github.com/Hatch1fy/errors"
+import "github.com/hatchify/errors"
 
 const (
 	// ErrInvalidRow is returned when a Row contains more entries than the associated Header
