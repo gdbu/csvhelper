@@ -1,4 +1,4 @@
-module github.com/hatchify/csvhelper
+module github.com/gdbu/csvhelper
 
 go 1.14
 
