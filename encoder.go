@@ -1,6 +1,7 @@
 package csvhelper
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -13,6 +14,7 @@ func NewEncoder(w io.Writer, header Row) (ep *Encoder, err error) {
 
 	e.w = w
 	e.header = header
+	fmt.Println("Encoding with a header length of", len(header))
 	ep = &e
 	return
 }
