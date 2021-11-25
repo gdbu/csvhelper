@@ -85,52 +85,11 @@ func isQuoted(bs []byte) (quoted bool) {
 	return
 }
 
-func scanLines(data []byte, atEOF bool) (advance int, token []byte, err error) {
-	if atEOF && len(data) == 0 {
-		return
-	}
-
-	var last int
-
-	for {
-		var i int
-		if i = bytes.IndexByte(data[last:], '\n'); i == -1 {
-			break
-		}
-
-		// Correct for offset
-		i += last
-
-		if isQuoted(data[:i]) {
-			last = i + 1
-			continue
-		}
-
-		// We have a full newline-terminated line AND we are not in a quoted state
-		// - Advance past the newline index
-		// - Return token as the data with the newline suffix removed
-		advance = i + 1
-		token = trimNewlineSuffix(data[:i])
-		return
-	}
-
-	if atEOF {
-		// We're at the end of file:
-		// - Advance the length of the data
-		// - Return token as the data with the newline suffix removed
-		advance = len(data)
-		token = trimNewlineSuffix(data)
-		return
-	}
-
-	// No match found yet, request more data
-	return
-}
-
 func needsEscape(str string) bool {
 	switch {
-	case strings.Index(str, ",") > -1:
-	case strings.Index(str, "\n") > -1:
+	case strings.Contains(str, ","):
+	case strings.Contains(str, "\n"):
+	case strings.Contains(str, "\""):
 
 	default:
 		return false
@@ -156,17 +115,16 @@ func escapeString(str string) string {
 		return str
 	}
 
-	escaped := make([]byte, 0, len(str)+2)
-	escaped = append(escaped, '"')
-	escaped = append(escaped, str...)
-	escaped = append(escaped, '"')
-	return string(escaped)
+	str = strings.ReplaceAll(str, "\"", "\\\"")
+	return "\"" + str + "\""
 }
 
 func unescapeString(str string) string {
 	if len(str) == 0 {
 		return ""
 	}
+
+	str = strings.ReplaceAll(str, "\\\"", "\"")
 
 	if !isEscaped(str) {
 		return str

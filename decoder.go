@@ -1,24 +1,18 @@
 package csvhelper
 
-import (
-	"bufio"
-	"io"
-)
+import "io"
 
 // NewDecoder will return a new decoder
 func NewDecoder(r io.Reader) (dp *Decoder, err error) {
 	var d Decoder
-	d.s = bufio.NewScanner(r)
-	d.s.Split(scanLines)
+	d.r = newRowReader(r)
 
-	// Read first line of CSV
-	if !d.s.Scan() {
-		err = io.EOF
+	var row []string
+	if row, err = d.r.readRow(); err != nil {
 		return
 	}
 
-	// Attempt to parse header from first line bytes
-	if d.header, err = newRow(d.s.Bytes()); err != nil {
+	if d.header, err = newRow(row); err != nil {
 		return
 	}
 
@@ -29,7 +23,7 @@ func NewDecoder(r io.Reader) (dp *Decoder, err error) {
 // Decoder manages decoding
 type Decoder struct {
 	// Scanner used to read CSV lines
-	s *bufio.Scanner
+	r *rowReader
 	// CSV header
 	header Row
 }
@@ -46,16 +40,14 @@ func (d *Decoder) Header() (header Row) {
 
 // Decode will decode a single row
 func (d *Decoder) Decode(dec Decodee) (err error) {
-	// Scan next line
-	if !d.s.Scan() {
-		// Our scan was unsuccessful which means we've reached the end of our reader, return EOF
-		err = io.EOF
+	var row []string
+	if row, err = d.r.readRow(); err != nil {
 		return
 	}
 
 	var r Row
 	// Attempt to create a new row from our row bytes
-	if r, err = newRow(d.s.Bytes()); err != nil {
+	if r, err = newRow(row); err != nil {
 		if err == ErrEmptyRow {
 			return d.Decode(dec)
 		}
