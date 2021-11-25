@@ -1,12 +1,6 @@
 package csvhelper
 
-import (
-	"errors"
-	"fmt"
-	"io"
-)
-
-var errBreak = errors.New("break")
+import "io"
 
 // NewDecoder will return a new decoder
 func NewDecoder(r io.Reader) (dp *Decoder, err error) {
@@ -21,8 +15,6 @@ func NewDecoder(r io.Reader) (dp *Decoder, err error) {
 	if d.header, err = newRow(row); err != nil {
 		return
 	}
-
-	fmt.Println("Decoding with a header length of", len(d.header))
 
 	dp = &d
 	return
@@ -50,11 +42,8 @@ func (d *Decoder) Header() (header Row) {
 func (d *Decoder) Decode(dec Decodee) (err error) {
 	var row []string
 	if row, err = d.r.readRow(); err != nil {
-		fmt.Println("ERR", err)
 		return
 	}
-
-	fmt.Println("Row", row)
 
 	var r Row
 	// Attempt to create a new row from our row bytes
@@ -65,8 +54,6 @@ func (d *Decoder) Decode(dec Decodee) (err error) {
 
 		return
 	}
-
-	fmt.Println("Row len?", len(r), r[0])
 
 	// Ensure row length is not longer than header
 	if len(r) > len(d.header) {
