@@ -2,7 +2,6 @@ package csvhelper
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 )
 
@@ -20,33 +19,30 @@ func newRowReader(rdr io.Reader) *rowReader {
 }
 
 type rowReader struct {
+	state uint8
 	char  rune
 	row   []string
 	buf   []rune
-	state uint8
 
 	rdr io.RuneReader
 }
 
 func (r *rowReader) readRow() (row []string, err error) {
 	for r.char, _, err = r.rdr.ReadRune(); err == nil; r.char, _, err = r.rdr.ReadRune() {
-		fmt.Println("Rune", string(r.char))
 		var rowEnd bool
 		switch r.state {
 		case 0:
 			rowEnd, err = r.state0()
 		case 1:
 			err = r.state1()
+		case 2:
+			err = r.state2()
 		}
 
 		if rowEnd {
-			row = r.row
-			r.row = nil
 			break
 		}
 	}
-
-	fmt.Println("OH", err, r.row)
 
 	if err == io.EOF && len(r.row) > 0 {
 		err = nil
@@ -74,6 +70,8 @@ func (r *rowReader) state0() (rowEnd bool, err error) {
 	case '"':
 		r.buf = append(r.buf, r.char)
 		r.state = 1
+	default:
+		r.buf = append(r.buf, r.char)
 	}
 
 	return
@@ -84,9 +82,16 @@ func (r *rowReader) state1() (err error) {
 	case '"':
 		r.buf = append(r.buf, r.char)
 		r.state = 0
+	case '\\':
+		r.buf = append(r.buf, r.char)
+		r.state = 2
 	}
 
 	return
 }
 
-type onRow func([][]rune) error
+func (r *rowReader) state2() (err error) {
+	r.buf = append(r.buf, r.char)
+	r.state = 1
+	return
+}
